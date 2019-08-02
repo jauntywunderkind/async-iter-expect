@@ -14,7 +14,7 @@ tape( "gets what is expected", async function( t){
 		t.equal( a, b, "got expected element")
 		return a=== b
 	}
-	const expecting= Expect( generator(), abc123, equal)
+	const expecting= new Expect( generator(), abc123, equal)
 	for await( const val of expecting){
 		t.ok( val)
 	}
@@ -28,7 +28,7 @@ tape( "error on something unexpected", async function( t){
 		yield 2
 		yield -99
 	}
-	const expecting= Expect( generator(), abc123)
+	const expecting= new Expect( generator(), abc123)
 	let err
 	try{
 		for await( const val of expecting){
@@ -39,5 +39,17 @@ tape( "error on something unexpected", async function( t){
 	}
 	t.ok( err instanceof NotExpectedError, "got expected an NotExpectedError")
 	t.equal( err.code, NotExpectedError.NOT_EQUAL, "got expected NOT_EQUAL")
+	t.end()
+})
+
+tape( ".then returns length of run", async function( t){
+	t.plan( 1)
+	async function *generator(){
+		yield* abc123
+	}
+	const
+	  expecting= new Expect( generator, abc123),
+	  got= await expecting
+	t.equal( got.count, 6, "count of 6 resolved")
 	t.end()
 })
