@@ -53,3 +53,8 @@ tape( ".then returns length of run", async function( t){
 	t.equal( got.count, 6, "count of 6 resolved")
 	t.end()
 })
+
+tape( "multiple consumers trigger multiple iterations", async function( t){
+	t.plan( 0)
+	t.end()
+})
